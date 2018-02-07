@@ -25,12 +25,12 @@ namespace Microsoft.OneDrive.Sdk.Authentication
     /// </summary>
     public class MsaAuthenticationProvider : IAuthenticationProvider
     {
-        internal readonly string clientId;
-        internal string clientSecret;
-        internal string returnUrl;
-        internal string[] scopes;
-        
-        private OAuthHelper oAuthHelper;
+        protected readonly string clientId;
+        protected string clientSecret;
+        protected string returnUrl;
+        protected string[] scopes;
+
+        protected OAuthHelper oAuthHelper;
 
         internal ICredentialVault credentialVault;
         internal IWebAuthenticationUi webAuthenticationUi;
@@ -498,7 +498,7 @@ namespace Microsoft.OneDrive.Sdk.Authentication
             this.CacheAuthResult(authResult);          
         }
 
-        internal async Task<AccountSession> GetAuthenticationResultFromCacheAsync(string userId, IHttpProvider httpProvider)
+        protected async Task<AccountSession> GetAuthenticationResultFromCacheAsync(string userId, IHttpProvider httpProvider)
         {
             var accountSession = await this.ProcessCachedAccountSessionAsync(this.CurrentAccountSession, httpProvider).ConfigureAwait(false);
 
@@ -529,7 +529,7 @@ namespace Microsoft.OneDrive.Sdk.Authentication
             return processedResult;
         }
 
-        internal async Task<AccountSession> GetMostRecentAuthenticationResultFromCacheAsync(IHttpProvider httpProvider)
+        protected async Task<AccountSession> GetMostRecentAuthenticationResultFromCacheAsync(IHttpProvider httpProvider)
         {
             var cacheResult = this.CredentialCache.GetMostRecentlyUsedResultFromCache();
 
@@ -546,7 +546,7 @@ namespace Microsoft.OneDrive.Sdk.Authentication
             return processedResult;
         }
 
-        internal async Task<AccountSession> ProcessCachedAccountSessionAsync(AccountSession accountSession)
+        protected async Task<AccountSession> ProcessCachedAccountSessionAsync(AccountSession accountSession)
         {
             using (var httpProvider = new HttpProvider())
             {
@@ -555,7 +555,7 @@ namespace Microsoft.OneDrive.Sdk.Authentication
             }
         }
 
-        internal virtual async Task<AccountSession> ProcessCachedAccountSessionAsync(AccountSession accountSession, IHttpProvider httpProvider)
+        protected virtual async Task<AccountSession> ProcessCachedAccountSessionAsync(AccountSession accountSession, IHttpProvider httpProvider)
         {
             if (accountSession != null)
             {
